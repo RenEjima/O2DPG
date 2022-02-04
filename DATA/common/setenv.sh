@@ -40,6 +40,7 @@ if [ -z "$CTF_MAXDETEXT" ]; then export CTF_MAXDETEXT=0; fi            # extend 
 if [ -z "$TFDELAY" ];       then export TFDELAY=100; fi                # Delay in seconds between publishing time frames
 if [ -z "$GPUTYPE" ];       then export GPUTYPE=CPU; fi                # GPU Tracking backend to use, can be CPU / CUDA / HIP / OCL / OCL2
 if [ -z "$DDSHMSIZE" ];     then export DDSHMSIZE=$(( 8 << 10 )); fi   # Size of shared memory for DD Input
+if [ -z "$DDHDRSIZE" ];     then export DDHDRSIZE=$(( 2 << 10 )); fi   # Size of shared memory for DD Input
 if [ -z "$GPUMEMSIZE" ];    then export GPUMEMSIZE=$(( 24 << 30 )); fi # Size of allocated GPU memory (if GPUTYPE != CPU)
 if [ -z "$HOSTMEMSIZE" ];   then export HOSTMEMSIZE=0; fi              # Size of allocated host memory for GPU reconstruction (0 = default)
 if [ -z "$CREATECTFDICT" ]; then export CREATECTFDICT=0; fi            # Create CTF dictionary
@@ -60,6 +61,7 @@ if [ -z "$FILEWORKDIR" ];   then export FILEWORKDIR=`pwd`; fi          # Overrid
 if [ -z "$RAWINPUTDIR" ];   then export RAWINPUTDIR=$FILEWORKDIR; fi   # Directory where to find input files (raw files / raw tf files / ctf files)
 if [ -z "$EPNSYNCMODE" ];   then export EPNSYNCMODE=0; fi              # Is this workflow supposed to run on EPN? Will enable InfoLogger / metrics / ...
 if [ -z "$BEAMTYPE" ];      then export BEAMTYPE=PbPb; fi              # Beam type, must be PbPb, pp, pPb, cosmic, technical
+if [[ -z $IS_SIMULATED_DATA ]]; then IS_SIMULATED_DATA=1; fi           # processing simulated data
 if [ -z "$EDJSONS_DIR" ];   then export EDJSONS_DIR="jsons"; fi        # output directory for ED json files
 if [ $EPNSYNCMODE == 0 ]; then
   if [ -z "$SHMSIZE" ];       then export SHMSIZE=$(( 8 << 30 )); fi   # Size of shared memory for messages
@@ -79,7 +81,7 @@ else # Defaults when running on the EPN
   if [ -z "${WORKFLOW_DETECTORS_FLP_PROCESSING+x}" ]; then export WORKFLOW_DETECTORS_FLP_PROCESSING="TOF"; fi # Current default in sync processing is that FLP processing is only enabled for TOF
 fi
 # Some more options for running on the EPN
-if [ -z "$INFOLOGGER_SEVERITY" ]; then export INFOLOGGER_SEVERITY="warning"; fi
+if [ -z "$INFOLOGGER_SEVERITY" ]; then export INFOLOGGER_SEVERITY="important"; fi
 if [ -z "$MULTIPLICITY_FACTOR_RAWDECODERS" ]; then export MULTIPLICITY_FACTOR_RAWDECODERS=1; fi
 if [ -z "$MULTIPLICITY_FACTOR_CTFENCODERS" ]; then export MULTIPLICITY_FACTOR_CTFENCODERS=1; fi
 if [ -z "$MULTIPLICITY_FACTOR_REST" ]; then export MULTIPLICITY_FACTOR_REST=1; fi
