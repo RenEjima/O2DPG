@@ -44,13 +44,12 @@ public:
   {
         // Rho pT in pp at 13 TeV, Pythia8
         Double_t x = *px;
-        Float_t p0, p1, p2, p3, p4;
+        Float_t p0, p1, p2, p3;
         p0 = 1;
-        p1 = 0.442572;
-        p2 = 3.5986;
-        p3 = 0.875139;
-        p4 = 10.2394;
-        return p0 * TMath::Power(x,2.) / TMath::Power(p1 + TMath::Power(x / p2, p3), p4);
+        p1 = 0.786322;
+        p2 = 1.75631;
+        p3 = 2.93893;
+        return p0 * x / TMath::Power(1. + TMath::Power(x / p1, p2), p3);
   }
 
   //-------------------------------------------------------------------------//
@@ -58,10 +57,14 @@ public:
   {
         // Rho y in pp at 13 TeV, Pythia8
         Double_t y = *py;
-        Float_t p0, p1;
+        Float_t p0, p1, p2, p3, p4, p5;
         p0 = 1;
-        p1 = 0.000503187;
-        return p0 * exp(-p1 * TMath::Power(x,4.));
+        p1 = -2.79240;
+        p2 = 5.09096;
+        p3 = 1;
+        p4 = 3.00016;
+        p5 = 7.45363;
+        return p0*exp(-pow(y-p1,2.)/p2)+p3*exp(-pow(y-p4,2.)/p5);
   }
 
   //-------------------------------------------------------------------------//
@@ -118,13 +121,12 @@ public:
   {
         // Omega pT in pp at 13 TeV, Pythia8
         Double_t x = *px;
-        Float_t p0, p1, p2, p3, p4;
+        Float_t p0, p1, p2, p3;
         p0 = 1;
-        p1 = 0.376274;
-        p2 = 3.86097;
-        p3 = 0.904797;
-        p4 = 9.70109;
-        return p0 * TMath::Power(x,2.) / TMath::Power(p1 + TMath::Power(x / p2, p3), p4);
+        p1 = 0.861983;
+        p2 = 1.72372;
+        p3 = 3.07830;
+        return p0 * x / TMath::Power(1. + TMath::Power(x / p1, p2), p3);
   }
 
   //-------------------------------------------------------------------------//
@@ -132,10 +134,14 @@ public:
   {
         // Omega y in pp at 13 TeV, Pythia8
         Double_t y = *py;
-        Float_t p0, p1;
+        Float_t p0, p1, p2, p3, p4, p5;
         p0 = 1;
-        p1 = 0.000508055;
-        return p0 * exp(-p1 * TMath::Power(x,4.));
+        p1 = -3.09442;
+        p2 = 8.46696;
+        p3 = 1;
+        p4 = 3.09011;
+        p5 = 9.61000;
+        return p0*exp(-pow(y-p1,2.)/p2)+p3*exp(-pow(y-p4,2.)/p5);
   }
 
   //-------------------------------------------------------------------------//
@@ -192,13 +198,12 @@ public:
   {
         // Phi pT in pp at 13 TeV, Pythia8
         Double_t x = *px;
-        Float_t p0, p1, p2, p3, p4;
+        Float_t p0, p1, p2, p3;
         p0 = 1;
-        p1 = 0.619994;
-        p2 = 5.03561;
-        p3 = 0.739176;
-        p4 = 14.1466;
-        return p0 * TMath::Power(x,2.) / TMath::Power(p1 + TMath::Power(x / p2, p3), p4);
+        p1 = 1.05684;
+        p2 = 1.50027;
+        p3 = 3.46313;
+        return p0 * x / TMath::Power(1. + TMath::Power(x / p1, p2), p3);
   }
 
   //-------------------------------------------------------------------------//
@@ -206,10 +211,14 @@ public:
   {
         // Phi y in pp at 13 TeV, Pythia8
         Double_t y = *py;
-        Float_t p0, p1;
+        Float_t p0, p1, p2, p3, p4, p5;
         p0 = 1;
-        p1 = 0.000715295;
-        return p0 * exp(-p1 * TMath::Power(x,4.));
+        p1 = -3.15333;
+        p2 = 9.70166;
+        p3 = 1;
+        p4 = 3.19083;
+        p5 = 10.3533;
+        return p0*exp(-pow(y-p1,2.)/p2)+p3*exp(-pow(y-p4,2.)/p5);
   }
 
   //-------------------------------------------------------------------------//
