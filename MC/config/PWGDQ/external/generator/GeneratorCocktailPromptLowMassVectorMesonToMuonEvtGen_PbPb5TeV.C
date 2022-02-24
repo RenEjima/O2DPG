@@ -62,7 +62,7 @@ public:
 	p0 = 1.;
 	p1 = 0.000811946;
 	p2 = -0.00544095;
-	return p0 * exp(-p1 * TMath::Power(y,4.) + p2 * TMath::Power(y,2.);
+	return p0 * exp(-p1 * TMath::Power(y,4.) + p2 * TMath::Power(y,2.));
   }
 
   //-------------------------------------------------------------------------//
@@ -137,7 +137,7 @@ public:
 	p0 = 1.;
 	p1 = 0.000789404;
 	p2 = -0.00725840;
-	return p0 * exp(-p1 * TMath::Power(y,4.) + p2 * TMath::Power(y,2.);
+	return p0 * exp(-p1 * TMath::Power(y,4.) + p2 * TMath::Power(y,2.));
   }
 
   //-------------------------------------------------------------------------//
@@ -212,7 +212,7 @@ public:
 	p0 = 1.;
 	p1 = 0.00134533;
 	p2 = -0.000644004;
-	return p0 * exp(-p1 * TMath::Power(y,4.) + p2 * TMath::Power(y,2.);
+	return p0 * exp(-p1 * TMath::Power(y,4.) + p2 * TMath::Power(y,2.));
   }
 
   //-------------------------------------------------------------------------//
