@@ -6,7 +6,7 @@ if [[ -z "$WORKFLOW" ]] || [[ -z "$MYDIR" ]]; then
 fi
 
 if [[ -z $QC_JSON_FROM_OUTSIDE ]]; then
-  if [[ $SYNCMODE == 1 ]] && [[ $EPNMODE == 1 ]]; then
+  if [[ $EPNSYNCMODE == 1 ]]; then
     [[ -z "$QC_JSON_TPC" ]] && QC_JSON_TPC=/home/rmunzer/odc/config/tpcQCTasks_multinode_ALL.json
     [[ -z "$QC_JSON_ITS" ]] && QC_JSON_ITS=/home/jian/jliu/itsEPN-merger.json
     [[ -z "$QC_JSON_MFT" ]] && QC_JSON_MFT=/home/epn/odc/files/qc-mft-cluster-merger-raw-digit-cluster.json
@@ -14,7 +14,7 @@ if [[ -z $QC_JSON_FROM_OUTSIDE ]]; then
     [[ -z "$QC_JSON_FDD" ]] && QC_JSON_FDD=/home/afurs/O2DataProcessing/testing/detectors/FDD/fdd-digits-ds.json
     [[ -z "$QC_JSON_FT0" ]] && QC_JSON_FT0=/home/afurs/O2DataProcessing/testing/detectors/FT0/ft0-digits-ds.json
     [[ -z "$QC_JSON_FV0" ]] && QC_JSON_FV0=/home/afurs/O2DataProcessing/testing/detectors/FV0/fv0-digits-ds.json
-    [[ -z "$QC_JSON_EMC" ]] && QC_JSON_EMC=/home/mfasel/alice/O2DataProcessing/testing/detectors/EMC/qc/emcQCTasksAll_multinode.json
+    [[ -z "$QC_JSON_EMC" ]] && QC_JSON_EMC=consul://o2/components/qc/ANY/any/emc-qcmn-epnall
     [[ -z "$QC_JSON_MCH" ]] && QC_JSON_MCH=/home/laphecet/qc_configs/mch-qc-physics.json
     [[ -z "$QC_JSON_MID" ]] && QC_JSON_MID=/home/dstocco/config/mid-qcmn-epn-digits.json
     [[ -z "$QC_JSON_PRIMVTX" ]] && QC_JSON_PRIMVTX=/home/shahoian/jsons/vertexing-qc.json
@@ -39,6 +39,7 @@ if [[ -z $QC_JSON_FROM_OUTSIDE ]]; then
     [[ -z "$QC_JSON_TOF" ]] && QC_JSON_TOF=$O2DPG_ROOT/DATA/production/qc-async/tof.json
     [[ -z "$QC_JSON_FT0" ]] && QC_JSON_FT0=$O2DPG_ROOT/DATA/production/qc-async/ft0.json
     [[ -z "$QC_JSON_FV0" ]] && QC_JSON_FV0=$O2DPG_ROOT/DATA/production/qc-async/fv0.json
+    [[ -z "$QC_JSON_EMC" ]] && QC_JSON_EMC=$O2DPG_ROOT/DATA/production/qc-async/emc.json
     [[ -z "$QC_JSON_MID" ]] && QC_JSON_MID=$O2DPG_ROOT/DATA/production/qc-async/mid.json
     [[ -z "$QC_JSON_PRIMVTX" ]] && QC_JSON_PRIMVTX=$O2DPG_ROOT/DATA/production/qc-async/primvtx.json
     [[ -z "$QC_JSON_ITSTPC" ]] && QC_JSON_ITSTPC=$O2DPG_ROOT/DATA/production/qc-async/itstpc.json
@@ -51,13 +52,29 @@ if [[ -z $QC_JSON_FROM_OUTSIDE ]]; then
     exit 1
   fi
 
+  TMPDIR=$(mktemp -d -t GEN_TOPO_DOWNLOAD_JSON-XXXXXXXXXXXXXXXXXX)
+
+  add_QC_JSON()
+  {
+    if [[ ${2} =~ ^consul://.* ]]; then
+      curl -s -o $TMPDIR/$1.json "http://alio2-cr1-hv-aliecs.cern.ch:8500/v1/kv/${2/consul:\/\//}?raw"
+      if [[ $? != 0 ]]; then
+        echo "Error fetching QC JSON $2"
+        exit 1
+      fi
+      JSON_FILES+=" $TMPDIR/$1.json"
+    else
+      JSON_FILES+=" ${2}"
+    fi
+    OUTPUT_SUFFIX+="-$1"
+  }
+
   JSON_FILES=
   OUTPUT_SUFFIX=
   for i in `echo $LIST_OF_DETECTORS | sed "s/,/ /g"`; do
     DET_JSON_FILE="QC_JSON_$i"
     if has_detector_qc $i && [ ! -z "${!DET_JSON_FILE}" ]; then
-       JSON_FILES+=" ${!DET_JSON_FILE}"
-       OUTPUT_SUFFIX+="-$i"
+      add_QC_JSON $i ${!DET_JSON_FILE}
     fi
   done
 
@@ -65,15 +82,13 @@ if [[ -z $QC_JSON_FROM_OUTSIDE ]]; then
   for i in `echo $LIST_OF_GLORECO | sed "s/,/ /g"`; do
     GLO_JSON_FILE="QC_JSON_$i"
     if has_detector_matching $i && has_matching_qc $i && [ ! -z "${!GLO_JSON_FILE}" ]; then
-       JSON_FILES+=" ${!GLO_JSON_FILE}"
-       OUTPUT_SUFFIX+="-$i"
+       add_QC_JSON $i ${!GLO_JSON_FILE}
     fi
   done
 
   # arbitrary extra QC
   if [[ ! -z "$QC_JSON_EXTRA" ]]; then
-      JSON_FILES+=" ${QC_JSON_EXTRA}"
-      OUTPUT_SUFFIX+="-EXTRA"
+    add_QC_JSON EXTRA ${QC_JSON_EXTRA}
   fi
 
   if [[ ! -z "$JSON_FILES" ]]; then
@@ -94,6 +109,8 @@ if [[ -z $QC_JSON_FROM_OUTSIDE ]]; then
     fi
     QC_JSON_FROM_OUTSIDE="$MERGED_JSON_FILENAME"
   fi
+
+  rm -Rf $TMPDIR
 fi
 
 if [[ ! -z "$QC_JSON_FROM_OUTSIDE" ]]; then
