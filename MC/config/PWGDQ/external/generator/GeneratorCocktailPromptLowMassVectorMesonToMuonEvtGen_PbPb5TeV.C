@@ -98,7 +98,7 @@ public:
     paramOmega->SetPhiRange(0., 360.);
     paramOmega->SetDecayer(new TPythia6Decayer());
     paramOmega->SetForceDecay(kNoDecay); // particle left undecayed
-    // - - paramRho->SetTrackingFlag(1);  // check this
+    // - - paramOmega->SetTrackingFlag(1);  // check this
     setTGenerator(paramOmega);
   };
 
@@ -156,7 +156,7 @@ public:
 
 private:
 
-  GeneratorParam *paramPhi = nullptr;
+  GeneratorParam *paramOmega = nullptr;
 
 };
 
