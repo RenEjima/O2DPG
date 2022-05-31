@@ -43,7 +43,7 @@ parser.add_argument('-productionTag',help="Production tag for this MC", default=
 # - in principle it should be consistent with the time of the "run" number above
 # - some external tool should sample it within
 # - we can also sample it ourselfs here
-parser.add_argument('--timestamp', type=int, help="Anchoring timestamp (defaults to now)", default=-1)
+parser.add_argument('--timestamp', type=int, help="Anchoring timestamp (defaults to now)", default=1635659148972)
 parser.add_argument('--anchor-config',help="JSON file to contextualise workflow with external configs (config values etc.) for instance comping from data reco workflows.", default='')
 parser.add_argument('-ns',help='number of signal events / timeframe', default=20)
 parser.add_argument('-gen',help='generator: pythia8, extgen', default='')
