@@ -44,14 +44,4 @@ Decay Upsilon(3S)
 1.000 mu+   mu-                PHOTOS VLL;
 Enddecay
 
-Decay a1+
-### test
-1.000 rho0   pi+                PHOTOS VLL;
-Enddecay
-
-Decay a1-
-### test
-1.000 rho0   pi-                PHOTOS VLL;
-Enddecay
-
 End
