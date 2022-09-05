@@ -77,7 +77,7 @@ class O2_GeneratorParama1p : public GeneratorTGenerator
   //-------------------------------------------------------------------------//
   static Int_t Ipa1pPbPb5TeV(TRandom*)
   {
-    return 113;
+    return 20213;
   }
 
  private:
@@ -150,7 +150,7 @@ class O2_GeneratorParama1m : public GeneratorTGenerator
   //-------------------------------------------------------------------------//
   static Int_t Ipa1mPbPb5TeV(TRandom*)
   {
-    return 223;
+    return -20213;
   }
 
  private:
@@ -172,7 +172,7 @@ FairGenerator* GeneratorRhoA1mixingToMuonEvtGen_PbPb5TeV()
   genCocktailEvtGen->AddGenerator(gena1p, 1); // 2/3 a1m
   genCocktailEvtGen->AddGenerator(gena1m, 1);  // 1/3 a1m
 
-  TString pdgs = "113;223";
+  TString pdgs = "20213;-20213";
   std::string spdg;
   TObjArray* obj = pdgs.Tokenize(";");
   genCocktailEvtGen->SetSizePdg(obj->GetEntriesFast());
