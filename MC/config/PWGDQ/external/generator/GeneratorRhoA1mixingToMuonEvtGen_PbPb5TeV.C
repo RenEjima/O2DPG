@@ -45,26 +45,28 @@ class O2_GeneratorParama1p : public GeneratorTGenerator
   //-------------------------------------------------------------------------//
   static Double_t Pta1pPbPb5TeV(const Double_t* px, const Double_t* /*dummy*/)
   {
-    // a1p pT in PbPb, tuned on data (2015) -> Castillo embedding https://alice.its.cern.ch/jira/browse/ALIROOT-8174?jql=text%20~%20%22LHC19a2%22
-    Double_t x = *px;
-    Float_t p0, p1, p2, p3;
-    p0 = 1.00715e6;
-    p1 = 3.50274;
-    p2 = 1.93403;
-    p3 = 3.96363;
-    return p0 * x / TMath::Power(1. + TMath::Power(x / p1, p2), p3);
+    // mT scaling of Rho pT in pp at 13 TeV for a1, Pythia8
+        Double_t x = *px;
+        Float_t p0, p1, p2, p3, p4, p5, p6;
+        p0 = 1;
+        p1 = 0.442572;
+        p2 = 3.5986;
+        p3 = 0.875139;
+        p4 = 10.2394;
+        p5 = 1.260;
+        p6 = 0.770;
+        return p0 * TMath::Sqrt(x*x + p5*p5 - p6*p6) * TMath::Power(x,2.) / TMath::Power(p1 + TMath::Power(x / p2, p3), p4);
   }
 
   //-------------------------------------------------------------------------//
   static Double_t Ya1pPbPb5TeV(const Double_t* py, const Double_t* /*dummy*/)
   {
-    // a1p y in PbPb, tuned on data (2015) -> Castillo embedding https://alice.its.cern.ch/jira/browse/ALIROOT-8174?jql=text%20~%20%22LHC19a2%22
-    Double_t y = *py;
-    Float_t p0, p1, p2;
-    p0 = 1.09886e6;
-    p1 = 0;
-    p2 = 2.12568;
-    return p0 * TMath::Exp(-(1. / 2.) * TMath::Power(((y - p1) / p2), 2));
+    // Use Rho y in pp at 13 TeV instead of a1, Pythia8
+        Double_t y = *py;
+        Float_t p0, p1;
+        p0 = 1;
+        p1 = 0.000503187;
+        return p0 * exp(-p1 * TMath::Power(y,4.));
   }
 
   //-------------------------------------------------------------------------//
@@ -118,26 +120,28 @@ class O2_GeneratorParama1m : public GeneratorTGenerator
   //-------------------------------------------------------------------------//
   static Double_t Pta1mPbPb5TeV(const Double_t* px, const Double_t* /*dummy*/)
   {
-    // a1m pT in PbPb, tuned on data (2015) -> Castillo embedding https://alice.its.cern.ch/jira/browse/ALIROOT-8174?jql=text%20~%20%22LHC19a2%22
-    Double_t x = *px;
-    Float_t p0, p1, p2, p3;
-    p0 = 1.00715e6;
-    p1 = 3.50274;
-    p2 = 1.93403;
-    p3 = 3.96363;
-    return p0 * x / TMath::Power(1. + TMath::Power(x / p1, p2), p3);
+    // mT scaling of Rho pT in pp at 13 TeV for a1, Pythia8
+        Double_t x = *px;
+        Float_t p0, p1, p2, p3, p4, p5, p6;
+        p0 = 1;
+        p1 = 0.442572;
+        p2 = 3.5986;
+        p3 = 0.875139;
+        p4 = 10.2394;
+        p5 = 1.260;
+        p6 = 0.770;
+        return p0 * TMath::Sqrt(x*x + p5*p5 - p6*p6) * TMath::Power(x,2.) / TMath::Power(p1 + TMath::Power(x / p2, p3), p4);
   }
 
   //-------------------------------------------------------------------------//
   static Double_t Ya1mPbPb5TeV(const Double_t* py, const Double_t* /*dummy*/)
   {
-    // a1m y in PbPb, tuned on data (2015) -> Castillo embedding https://alice.its.cern.ch/jira/browse/ALIROOT-8174?jql=text%20~%20%22LHC19a2%22
-    Double_t y = *py;
-    Float_t p0, p1, p2;
-    p0 = 1.09886e6;
-    p1 = 0;
-    p2 = 2.12568;
-    return p0 * TMath::Exp(-(1. / 2.) * TMath::Power(((y - p1) / p2), 2));
+    // Use Rho y in pp at 13 TeV instead of a1, Pythia8
+        Double_t y = *py;
+        Float_t p0, p1;
+        p0 = 1;
+        p1 = 0.000503187;
+        return p0 * exp(-p1 * TMath::Power(y,4.));
   }
 
   //-------------------------------------------------------------------------//
@@ -166,11 +170,11 @@ FairGenerator* GeneratorRhoA1mixingToMuonEvtGen_PbPb5TeV()
   auto genCocktailEvtGen = new o2::eventgen::GeneratorEvtGen<GeneratorCocktail_class>();
 
   auto gena1p = new o2::eventgen::O2_GeneratorParama1p;
-  gena1p->SetNSignalPerEvent(4); // 4 J/a1m generated per event by GeneratorParam
+  gena1p->SetNSignalPerEvent(4); // 4 a1m generated per event by GeneratorParam
   auto gena1m = new o2::eventgen::O2_GeneratorParama1m;
-  gena1m->SetNSignalPerEvent(4);               // 2 a1m generated per event by GeneratorParam
-  genCocktailEvtGen->AddGenerator(gena1p, 1); // 2/3 a1m
-  genCocktailEvtGen->AddGenerator(gena1m, 1);  // 1/3 a1m
+  gena1m->SetNSignalPerEvent(4);               // 4 a1m generated per event by GeneratorParam
+  genCocktailEvtGen->AddGenerator(gena1p, 1);
+  genCocktailEvtGen->AddGenerator(gena1m, 1);
 
   TString pdgs = "20213;-20213";
   std::string spdg;
