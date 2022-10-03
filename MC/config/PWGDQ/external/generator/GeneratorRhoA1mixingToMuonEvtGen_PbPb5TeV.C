@@ -170,9 +170,9 @@ FairGenerator* GeneratorRhoA1mixingToMuonEvtGen_PbPb5TeV()
   auto genCocktailEvtGen = new o2::eventgen::GeneratorEvtGen<GeneratorCocktail_class>();
 
   auto gena1p = new o2::eventgen::O2_GeneratorParama1p;
-  gena1p->SetNSignalPerEvent(4); // 4 a1m generated per event by GeneratorParam
+  gena1p->SetNSignalPerEvent(1); // 1 a1m generated per event by GeneratorParam
   auto gena1m = new o2::eventgen::O2_GeneratorParama1m;
-  gena1m->SetNSignalPerEvent(4);               // 4 a1m generated per event by GeneratorParam
+  gena1m->SetNSignalPerEvent(1);               // 1 a1m generated per event by GeneratorParam
   genCocktailEvtGen->AddGenerator(gena1p, 1);
   genCocktailEvtGen->AddGenerator(gena1m, 1);
 
