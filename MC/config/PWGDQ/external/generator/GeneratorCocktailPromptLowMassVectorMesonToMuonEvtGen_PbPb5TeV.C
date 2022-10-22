@@ -244,11 +244,11 @@ FairGenerator* GeneratorCocktailPromptLowMassVectorMesonToMuonEvtGen_PbPb5TeV()
   auto genCocktailEvtGen = new o2::eventgen::GeneratorEvtGen<GeneratorCocktail_class>();
 
   auto genRho = new o2::eventgen::O2_GeneratorParamRho;
-  genRho->SetNSignalPerEvent(4); // 4 Rho generated per event by GeneratorParam
+  genRho->SetNSignalPerEvent(20); // 4 Rho generated per event by GeneratorParam
   auto genOmega = new o2::eventgen::O2_GeneratorParamOmega;
-  genOmega->SetNSignalPerEvent(2);  // 2 Omega generated per event by GeneratorParam
+  genOmega->SetNSignalPerEvent(0);  // 2 Omega generated per event by GeneratorParam
   auto genPhi = new o2::eventgen::O2_GeneratorParamPhi;
-  genPhi->SetNSignalPerEvent(2);  // 2 Phi generated per event by GeneratorParam
+  genPhi->SetNSignalPerEvent(0);  // 2 Phi generated per event by GeneratorParam
   genCocktailEvtGen->AddGenerator(genRho,1); // 2/3 Rho
   genCocktailEvtGen->AddGenerator(genOmega,1);  // 1/3 Omega
   genCocktailEvtGen->AddGenerator(genPhi,1);  // 1/3 Phi
