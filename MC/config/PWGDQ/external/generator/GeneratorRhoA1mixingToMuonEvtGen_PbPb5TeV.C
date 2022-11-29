@@ -403,11 +403,11 @@ FairGenerator* GeneratorRhoA1mixingToMuonEvtGen_PbPb5TeV()
   genCocktailEvtGen->AddGenerator(gena1m, 1);
 
   auto genRho = new o2::eventgen::O2_GeneratorParamRho;
-  genRho->SetNSignalPerEvent(530); // 4 Rho generated per event by GeneratorParam
+  genRho->SetNSignalPerEvent(10); // 4 Rho generated per event by GeneratorParam
   auto genOmega = new o2::eventgen::O2_GeneratorParamOmega;
-  genOmega->SetNSignalPerEvent(420);  // 2 Omega generated per event by GeneratorParam
+  genOmega->SetNSignalPerEvent(10);  // 2 Omega generated per event by GeneratorParam
   auto genPhi = new o2::eventgen::O2_GeneratorParamPhi;
-  genPhi->SetNSignalPerEvent(23);  // 2 Phi generated per event by GeneratorParam
+  genPhi->SetNSignalPerEvent(10);  // 2 Phi generated per event by GeneratorParam
   genCocktailEvtGen->AddGenerator(genRho,1); // 2/3 Rho
   genCocktailEvtGen->AddGenerator(genOmega,1);  // 1/3 Omega
   genCocktailEvtGen->AddGenerator(genPhi,1);  // 1/3 Phi
